@@ -1,7 +1,3 @@
-# Created by newuser for 5.3.1
-
-#POWERLEVEL9K_INSTALLATION_PATH=$ANTIGEN_BUNDLES/bhilburn/powerlevel9k
-
 source /usr/local/share/antigen/antigen.zsh
 antigen use oh-my-zsh
 

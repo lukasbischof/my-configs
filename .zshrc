@@ -29,7 +29,7 @@ gbp() {
       ggpush
     else
       >&2 echo "[ABORTED]"
-    fi        
+    fi
 }
 
 updated_gpg() {
@@ -45,6 +45,16 @@ updated_gpg() {
   else
     >&2 echo "[ABORTED]"
   fi
+}
+
+fix-react-native() {
+  rm -Rf node_modules
+  npm i
+  react-native link
+  cd ios
+  pod install
+  cd ..
+  react-native run-ios
 }
 
 alias mine='open -a RubyMine'
@@ -77,10 +87,22 @@ alias mach_update="renuo upgrade-laptop; gem update; npm i -g npm; npm update; n
 alias psql_start="pg_ctl -D /usr/local/var/postgres start"
 alias psql_stop="pg_ctl -D /usr/local/var/postgres stop"
 alias svgtopng="/Users/lukas/p/scripts/svgtopng.sh"
+alias react-native-container="/Users/lukas/p/scripts/react-native-container.sh"
 alias s="bbe rspec"
+alias run="bin/run"
+
+alias emulator="~/Library/Android/sdk/tools/emulator @Nexus_5X_API_26_x86"
+alias rnri="react-native run-ios --simulator=\"iPhone 8\""
+
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 export GPG_TTY=$(tty) # Diese globale Variable ist wichtig, dass das GPG signing von git commits funktioniert
 
 
 eval $(thefuck --alias)
 eval "$(gulp --completion=zsh)"
+REACT_EDITOR=atom
+export PATH="$(brew --prefix qt@5.5)/bin:$PATH:$JAVA_HOME/bin"
+export JAVA_HOME=/Library/Java/Home
+export ANDROID_HOME=/Users/lukas/Library/Android/sdk
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

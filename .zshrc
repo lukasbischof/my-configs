@@ -7,10 +7,8 @@ antigen bundle git-extras
 antigen bundle https://gist.github.com/ohcibi/986fe0876b1cf746d1e8
 
 antigen theme agnoster
-# antigen theme bhilburn/powerlevel9k powerlevel9k
 
 antigen apply
-
 
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 eval "$(rbenv init -)"
@@ -48,19 +46,15 @@ updated_gpg() {
 }
 
 fix-react-native() {
-  rm -Rf node_modules
-  npm i
+  rm -Rf node_modules && npm i
   react-native link
-  cd ios
-  pod install
-  cd ..
+  ( cd ios && pod install )
   react-native run-ios
 }
 
 alias mine='open -a RubyMine'
 alias lock="open -a ScreenSaverEngine"
 alias lsla="ls -laGhO"
-alias gtr="cd ~/r/"
 alias a="atom ."
 alias r="cd ~/r"
 alias pause="spotify pause"
@@ -78,11 +72,9 @@ alias rdreseed="bbe rake db:drop; bbe rake db:create; bbe rake db:migrate; bbe r
 alias rr="rails routes"
 alias rs="rails server"
 alias rspc="bin/bundle exec rspec"
-alias v="vim"
 alias spfy="spotify"
 alias findext="find . -type f -name"
 alias bbe="bin/bundle exec"
-alias cnsl="rails console"
 alias mach_update="renuo upgrade-laptop; gem update; npm i -g npm; npm update; npm upgrade; yes | brew cu -a;"
 alias psql_start="pg_ctl -D /usr/local/var/postgres start"
 alias psql_stop="pg_ctl -D /usr/local/var/postgres stop"

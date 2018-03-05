@@ -1,2 +1,2 @@
 # my-zshrc
-My ZSH config
+My config files / dot files

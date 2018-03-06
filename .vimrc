@@ -39,6 +39,7 @@ Plugin 'rizzatti/dash.vim'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'posva/vim-vue'
 Plugin 'w0rp/ale'
+Plugin 'bumaociyuan/vim-swift'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:

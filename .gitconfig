@@ -1,0 +1,20 @@
+[core]
+	excludesfile = ~/.gitignore_global
+	editor = nano
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[color]
+	ui = true
+[alias]
+	s = status -s
+	lg = log --decorate --graph --show-signature
+	ds = diff --staged
+	dl = diff HEAD^1
+[gpg]
+	program = /usr/local/Cellar/gnupg/2.2.5/bin/gpg
+[commit]
+	gpgsign = true

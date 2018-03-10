@@ -1,2 +1,2 @@
 # my-configrc
-My config files / dot files
+All my configuration files I use for work including the ZSH config, VIM config and GIT config

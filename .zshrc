@@ -56,14 +56,12 @@ alias mine='open -a RubyMine'
 alias lock="open -a ScreenSaverEngine"
 alias lsla="ls -laGhO"
 alias a="atom ."
-alias r="cd ~/r"
 alias pause="spotify pause"
 alias play="spotify play"
 alias nxt="spotify next"
 alias prev="spotify prev"
 alias ppwd="pwd -P"
 alias clock="cli-clock"
-alias rc="rails console"
 alias rcs="rails console --sandbox"
 alias rd="rails db"
 alias rdm="rails db:migrate"
@@ -72,7 +70,6 @@ alias rdreseed="bbe rake db:drop; bbe rake db:create; bbe rake db:migrate; bbe r
 alias rr="rails routes"
 alias rs="rails server"
 alias rspc="bin/bundle exec rspec"
-alias spfy="spotify"
 alias findext="find . -type f -name"
 alias bbe="bin/bundle exec"
 alias mach_update="renuo upgrade-laptop; gem update; npm i -g npm; npm update; npm upgrade; yes | brew cu -a;"
@@ -80,7 +77,6 @@ alias psql_start="pg_ctl -D /usr/local/var/postgres start"
 alias psql_stop="pg_ctl -D /usr/local/var/postgres stop"
 alias svgtopng="/Users/lukas/p/scripts/svgtopng.sh"
 alias react-native-container="/Users/lukas/p/scripts/react-native-container.sh"
-alias s="bbe rspec"
 alias run="bin/run"
 
 alias emulator="~/Library/Android/sdk/tools/emulator @Nexus_5X_API_26_x86"
@@ -88,7 +84,6 @@ alias rnri="react-native run-ios --simulator=\"iPhone 8\""
 
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 export GPG_TTY=$(tty) # Diese globale Variable ist wichtig, dass das GPG signing von git commits funktioniert
-
 
 eval $(thefuck --alias)
 eval "$(gulp --completion=zsh)"

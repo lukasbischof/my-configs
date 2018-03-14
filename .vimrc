@@ -40,6 +40,10 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'posva/vim-vue'
 Plugin 'w0rp/ale'
 Plugin 'bumaociyuan/vim-swift'
+Plugin 'majutsushi/tagbar'
+Plugin 'godlygeek/tabular'
+
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
@@ -72,8 +76,15 @@ let g:javascript_conceal_function = "ƒ"
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" NERDTree
 map <C-n> :NERDTreeToggle<CR>
 map <C-f> :NERDTreeFocus<CR>
+
+nmap <F8> :TagbarToggle<CR>
+nmap <F9> :Tab /:<CR>
+
 let g:ctrlp_map = '<c-p>'
 let NERDTreeShowHidden=1
+
 set runtimepath^=~/.vim/bundle/ctrlp.vim

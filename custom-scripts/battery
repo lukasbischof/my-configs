@@ -1,0 +1,6 @@
+#!/bin/sh
+
+ioreg -c AppleSmartBattery -w0 | \
+    grep -o '"[^"]*" = [^ ]*' | \
+    sed -e 's/= //g' -e 's/"//g' | \
+    sort

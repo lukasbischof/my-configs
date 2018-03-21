@@ -88,7 +88,7 @@ export GPG_TTY=$(tty) # Diese globale Variable ist wichtig, dass das GPG signing
 eval $(thefuck --alias)
 eval "$(gulp --completion=zsh)"
 REACT_EDITOR=atom
-export PATH="$(brew --prefix qt@5.5)/bin:$PATH:$JAVA_HOME/bin"
+export PATH="$(brew --prefix qt@5.5)/bin:$PATH:$JAVA_HOME/bin:$HOME/custom-scripts"
 export JAVA_HOME=/Library/Java/Home
 export ANDROID_HOME=/Users/lukas/Library/Android/sdk
 

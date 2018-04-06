@@ -42,6 +42,7 @@ Plugin 'w0rp/ale'
 Plugin 'bumaociyuan/vim-swift'
 Plugin 'majutsushi/tagbar'
 Plugin 'godlygeek/tabular'
+Plugin 'valloric/youcompleteme'
 
 
 call vundle#end()            " required

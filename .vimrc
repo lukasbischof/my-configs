@@ -87,6 +87,11 @@ map <C-f> :NERDTreeFocus<CR>
 nmap <F8> :TagbarToggle<CR>
 nmap <F9> :Tab /:<CR>
 
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
 let g:ctrlp_map = '<c-p>'
 let NERDTreeShowHidden=1
 

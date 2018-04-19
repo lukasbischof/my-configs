@@ -87,6 +87,7 @@ map <C-f> :NERDTreeFocus<CR>
 nmap <F8> :TagbarToggle<CR>
 nmap <F9> :Tab /:<CR>
 
+" Move lines with alt+j or alt+k in visual and normal mode
 nnoremap <A-j> :m .+1<CR>==
 nnoremap <A-k> :m .-2<CR>==
 vnoremap <A-j> :m '>+1<CR>gv=gv

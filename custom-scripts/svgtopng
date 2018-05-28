@@ -1,0 +1,54 @@
+#!/bin/sh
+
+function print_man() {
+  echo "SVG to PNG converter"
+  echo "Usage:"
+  echo "\tsvgtopng [options] file outputfile"
+  echo "Options:"
+  echo "\t--size size (i.e. --size 100x200)"
+  echo "\t--density density"
+  echo "\t--background color [DEFAULT: transparent]"
+  exit 1
+}
+
+if [ $# -le 1 ]; then
+  print_man
+fi
+
+output="${@: -1:1}"
+input="${@: -2:1}"
+size=""
+density=""
+background="-background transparent "
+
+for (( i=1; i<=$(($# - 2)); i=i+2 ))
+do
+  arg=${@: i:1}
+  val=${@: $((i+1)):1}
+
+  case $arg in
+    "--help")
+      print_man
+      exit 0
+      ;;
+
+    "--size")
+      size="-resize $val "
+      ;;
+    
+    "--density")
+      density="-density $val "
+      ;;
+
+    "--background")
+      background="-background $val "
+      ;;
+    
+    *)
+      echo "Unknown option $arg" 1>&2
+      ;;
+  esac
+done
+
+echo "Use imagemagick to draw your svg"
+eval "convert $size$density$background$input $output"

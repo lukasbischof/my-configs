@@ -30,21 +30,6 @@ gbp() {
     fi
 }
 
-updated_gpg() {
-  new_version="$(brew list --versions gpg | cut -f2 -d" ")"
-  echo "Your current gpg program is $(git config gpg.program)"
-  echo "It will get updated to /usr/local/Cellar/gnupg/$new_version/bin/gpg"
-  echo -n "Is that ok? [y/n]: "
-  read des
-
-  if [ $des = "y" ]; then
-    git config --global gpg.program "/usr/local/Cellar/gnupg/$new_version/bin/gpg"
-    echo "$(git config gpg.program)"
-  else
-    >&2 echo "[ABORTED]"
-  fi
-}
-
 fix-react-native() {
   rm -Rf node_modules && npm i
   react-native link

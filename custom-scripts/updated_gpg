@@ -8,7 +8,7 @@ read des
 
 if [ $des = "y" ]; then
   git config --global gpg.program "/usr/local/Cellar/gnupg/$new_version/bin/gpg"
-  echo "$(git config gpg.program)"
+  echo "Updated to $(git config gpg.program)"
 else
   >&2 echo "[ABORTED]"
 fi

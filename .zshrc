@@ -63,6 +63,8 @@ alias psql_stop="pg_ctl -D /usr/local/var/postgres stop"
 alias svgtopng="/Users/lukas/p/scripts/svgtopng.sh"
 alias react-native-container="/Users/lukas/p/scripts/react-native-container.sh"
 alias run="bin/run"
+alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
 alias emulator="~/Library/Android/sdk/tools/emulator @Nexus_5X_API_26_x86"
 alias rnri="react-native run-ios --simulator=\"iPhone 8\""

@@ -3,3 +3,4 @@
 .vscode/
 .idea/
 public/packs/
+public/javascript/manifest.json

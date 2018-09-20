@@ -43,6 +43,7 @@ Plugin 'bumaociyuan/vim-swift'
 Plugin 'majutsushi/tagbar'
 Plugin 'godlygeek/tabular'
 Plugin 'valloric/youcompleteme'
+Plugin 'editorconfig/editorconfig-vim'
 
 
 call vundle#end()            " required

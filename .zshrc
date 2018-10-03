@@ -78,5 +78,6 @@ REACT_EDITOR=atom
 export PATH="$(brew --prefix qt@5.5)/bin:$PATH:$JAVA_HOME/bin:$HOME/custom-scripts"
 export JAVA_HOME=/Library/Java/Home
 export ANDROID_HOME=/Users/lukas/Library/Android/sdk
+export LC_ALL=en_GB
 
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

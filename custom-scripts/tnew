@@ -1,0 +1,11 @@
+#!/bin/bash
+
+path=$1
+
+if [ ! $path ]; then
+  path="${PWD##*/}"
+fi
+
+path="$(tr '[:lower:]' '[:upper:]' <<< ${path:0:1})${path:1}"
+
+tmux new -s $path

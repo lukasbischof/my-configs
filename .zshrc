@@ -28,7 +28,18 @@ export NVM_DIR="$HOME/.nvm"
 
 export PIP_TARGET=/Users/lukas/.pip
 
-source /Users/lukas/.configrc/.aliases.sh
+source $HOME/.configrc/.aliases.sh
+
+gbp() {
+    echo "Do you really want to commit to this branch [y/n]?"
+    git rev-parse --abbrev-ref HEAD
+    read des
+    if [ "$des" = "y" ]; then
+      ggpush
+    else
+      >&2 echo "[ABORTED]"
+    fi
+}
 
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 export GPG_TTY=$(tty) # Diese globale Variable ist wichtig, dass das GPG signing von git commits funktioniert

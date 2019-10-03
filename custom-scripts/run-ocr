@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
+# Runs an ocr for all pdfs located at the Documents' Scan directory in the folder called not_ocrd
+# and copied them to the folder called ocrd.
+
 find ~/Documents/Scans/not_ocrd -name "*.pdf" -exec sh -c 'ocrmypdf -l deu {} ~/Documents/Scans/ocrd/$(basename {}) && rm {}' \;

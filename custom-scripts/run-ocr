@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+find ~/Documents/Scans/not_ocrd -name "*.pdf" -exec sh -c 'ocrmypdf -l deu {} ~/Documents/Scans/ocrd/$(basename {}) && rm {}' \;

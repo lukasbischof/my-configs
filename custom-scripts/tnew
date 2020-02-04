@@ -8,4 +8,4 @@ fi
 
 path="$(tr '[:lower:]' '[:upper:]' <<< ${path:0:1})${path:1}"
 
-tmux new -s $path
+tmux new -s "$path"

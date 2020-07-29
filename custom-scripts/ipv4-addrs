@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Prints out all ipv4 addresses of all active interfaces
+# Works only on Mac
+
+set -eo pipefail
+
+ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2

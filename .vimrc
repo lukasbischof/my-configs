@@ -44,6 +44,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'godlygeek/tabular'
 Plugin 'valloric/youcompleteme'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'junegunn/fzf'
 
 
 call vundle#end()            " required
@@ -98,3 +99,4 @@ let g:ctrlp_map = '<c-p>'
 let NERDTreeShowHidden=1
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+set rtp+=/usr/local/opt/fzf

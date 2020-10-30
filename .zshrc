@@ -45,6 +45,10 @@ vimf() {
   vim $(find * -type f | fzf)
 }
 
+fco() {
+  gco $(gb | command xargs -n 1 | grep -v "*" | fzf) $@
+}
+
 export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
 export GPG_TTY=$(tty) # Diese globale Variable ist wichtig, dass das GPG signing von git commits funktioniert
 

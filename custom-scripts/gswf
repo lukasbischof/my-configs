@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+git_current_branch () {
+	local ref
+	ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null)
+	local ret=$?
+	if [[ $ret != 0 ]]
+	then
+		[[ $ret == 128 ]] && return
+		ref=$(command git rev-parse --short HEAD 2> /dev/null)  || return
+	fi
+	echo ${ref#refs/heads/}
+}
+
+branch=$(git branch | command xargs -n 1 | grep -v "*" | grep -v "$(git_current_branch)" | fzf)
+if [ -z "$branch" ]; then
+  echo "Did not switch branch"
+fi
+
+git switch $branch

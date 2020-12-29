@@ -1,9 +1,9 @@
 [core]
-	excludesfile = ~/.gitignore_global
-	editor = nano
+	excludesfile = /Users/lukas/.gitignore_global
+	editor = vim
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
+	path =
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
@@ -14,7 +14,17 @@
 	lg = log --decorate --graph --show-signature
 	ds = diff --staged
 	dl = diff HEAD^1
+	badass = push --no-verify --force
 [gpg]
-	program = /usr/local/Cellar/gnupg/2.2.5/bin/gpg
+	program = /usr/local/bin/gpg
 [commit]
-	gpgsign = true
+	gpgSign = true
+[tag]
+	forceSignAnnotated = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[pull]
+	rebase = true

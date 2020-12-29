@@ -2,5 +2,11 @@
 .DS_Store
 .vscode/
 .idea/
-public/packs/
+public/packs
 public/javascript/manifest.json
+*.gitignore/
+~$*
+config/master.key
+__pycache__
+.byebug_history
+*.swp

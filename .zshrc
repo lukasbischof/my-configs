@@ -18,11 +18,13 @@ antigen theme agnoster
 antigen apply
 
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-eval "$(rbenv init -)"
-eval "$(pyenv init -)"
+
 DEFAULT_USER="lukas"
 
-[[ -s /Users/lukas/.rsvm/rsvm.sh ]] && . /Users/lukas/.rsvm/rsvm.sh
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
+
+export PIP_TARGET=$HOME/.pip
 
 source $HOME/.configrc/.aliases.sh
 
@@ -34,27 +36,52 @@ function fco() {
   gco $(gb | command xargs -n 1 | grep -v "*" | fzf) $@
 }
 
-export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"
+function last_release_tag() {
+  git tag | sort -nr | egrep '\d+\.\d+\.\d+' | head -n1 | tr -d '\n'
+}
+
+export PATH="$(brew --prefix)/opt/imagemagick@6/bin:$PATH:/Users/lukas/Library/Android/sdk/tools/bin"
+export GPG_TTY=$(tty) # Diese globale Variable ist wichtig, dass das GPG signing von git commits funktioniert
+
+# eval $(thefuck --alias)
+# eval "$(gulp --completion=zsh)"
+export GOPATH=/Users/lukas/go
+export JAVA_HOME=$(brew --prefix)/opt/openjdk@11
+export PATH="$JAVA_HOME/bin:$(brew --prefix)/opt/bison/bin:$PATH:$HOME/flutter/bin:$HOME/.composer/vendor/bin:$HOME/.poetry/bin:$GOPATH/bin:$HOME/.rbenv/bin:$HOME/oracle/instantclient_20_3:$HOME/.pub-cache/bin:$HOME/.configrc/custom-scripts"
+export ANDROID_HOME=/Users/lukas/Library/Android/sdk
+export GROOVY_HOME=$(brew --prefix)/opt/groovy/libexec
+export BISON_PATH=$(brew --prefix)/opt/bison/bin/bison
 export LC_ALL=en_US.UTF-8
 export EDITOR=vim
-export GPG_TTY=$(tty) # Diese globale Variable ist wichtig, dass das GPG signing von git commits funktioniert
-export GOPATH="$HOME/go"
-export PATH="$PATH:$HOME/.composer/vendor/bin:$JAVA_HOME/bin:$GOPATH/bin:$HOME/.configrc/custom-scripts"
-export JAVA_HOME=/Library/Java/Home
-export ANDROID_HOME="$HOME/Library/Android/sdk"
-export GROOVY_HOME=/usr/local/opt/groovy/libexec
-export BISON_PATH=/usr/local/opt/bison/bin/bison
-export PIP_TARGET="$HOME/.pip"
-export NVM_DIR="$HOME/.nvm"
+export OCI_DIR=~/oracle/instantclient_19_3
 
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.tiny-care-terminalrc
 
-eval $(thefuck --alias)
-eval "$(gulp --completion=zsh)"
+eval "$(rbenv init -)"
+
+lsall() { echo; ls -lah; echo }
+zle -N lsall
+bindkey '^[l' 'lsall'
 
 _zsh_cli_fg() { fg; }
 zle -N _zsh_cli_fg
 bindkey '^Z' _zsh_cli_fg
 
-source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.tiny-care-terminalrc
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('$HOME/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="$HOME/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

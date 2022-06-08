@@ -1,3 +1,9 @@
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+################################################################################################################################
+#                                                           Antigen                                                            #
+################################################################################################################################
+
 source /usr/local/share/antigen/antigen.zsh
 antigen use oh-my-zsh
 antigen bundles <<EOBUNDLES
@@ -21,12 +27,53 @@ antigen apply
 
 DEFAULT_USER="lukas"
 
+################################################################################################################################
+#                                                          NVM Setup                                                           #
+################################################################################################################################
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
+
+# place this after nvm initialization!
+autoload -U add-zsh-hook
+load-nvmrc() {
+  local node_version="$(nvm version)"
+  local nvmrc_path="$(nvm_find_nvmrc)"
+
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$node_version" ]; then
+      nvm use
+    fi
+  elif [ "$node_version" != "$(nvm version default)" ]; then
+    echo "Reverting to nvm default version"
+    nvm use default
+  fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
+################################################################################################################################
+#                                                Aliases and Environment Setup                                                 #
+################################################################################################################################
 
 export PIP_TARGET=$HOME/.pip
 
 source $HOME/.configrc/.aliases.sh
+
+gbp() {
+    echo "Do you really want to commit to this branch [y/n]?"
+    git rev-parse --abbrev-ref HEAD
+    read des
+    if [ "$des" = "y" ]; then
+      ggpush
+    else
+      >&2 echo "[ABORTED]"
+    fi
+}
 
 function vimf() {
   vim $(find * -type f | fzf) $@

@@ -101,6 +101,15 @@ export BISON_PATH=$(brew --prefix)/opt/bison/bin/bison
 export LC_ALL=en_US.UTF-8
 export EDITOR=vim
 export OCI_DIR=~/oracle/instantclient_19_3
+export LIBRARY_PATH=$LIBRARY_PATH:/opt/homebrew/lib
+export CPATH=$CPATH:/opt/homebrew/include
+export HISTSIZE=70000
+
+# Do not write duplicates to history file
+setopt hist_ignore_all_dups
+
+# Igonre commands with preceeding space
+setopt hist_ignore_space
 
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.tiny-care-terminalrc

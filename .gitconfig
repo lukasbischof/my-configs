@@ -1,9 +1,13 @@
+[user]
+	name = Lukas Bischof
+	email = lukas.bischof@renuo.ch
+	signingKey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMcG42w+ZxsHsQ1JjR/CCQ79fWaNa2ZT2YuMx4jy702q
 [core]
 	excludesfile = /Users/lukas/.gitignore_global
 	editor = vim
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+	path = 
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
@@ -11,16 +15,22 @@
 	ui = true
 [alias]
 	s = status -s
-	lg = log --decorate --graph --show-signature
+	lg = log --stat --decorate --graph --show-signature
 	ds = diff --staged
 	dl = diff HEAD^1
+	unstage = restore --staged
 	badass = push --no-verify --force
+	aliases = "!f() { git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /' | sort; }; f"
 [gpg]
-	program = /usr/local/bin/gpg
+	format = ssh
+[gpg "ssh"]
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+	allowedSignersFile = /Users/lukas/.ssh/allowed_signers
 [commit]
 	gpgSign = true
 [tag]
 	forceSignAnnotated = false
+	gpgsign = true
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -28,3 +38,9 @@
 	required = true
 [pull]
 	rebase = true
+[init]
+	defaultBranch = main
+[push]
+	autoSetupRemote = true
+[includeIf "gitdir:~/p/"] 
+	path = ~/p/.gitconfig

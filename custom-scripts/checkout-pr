@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Parse command line options
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --all)
+      state="all"
+      shift
+      ;;
+    *)
+      echo "Usage: $0 [--all]"
+      exit 1
+      ;;
+  esac
+done
+
+# Fetch all open pull requests
+if [[ "$state" == "all" ]]; then
+  pr_list=$(gh pr list --state all --json number,title | jq -r '.[] | "\(.number)\t\(.title)"')
+else
+  pr_list=$(gh pr list --state open --json number,title | jq -r '.[] | "\(.number)\t\(.title)"')
+fi
+
+# Prompt user to select a pull request using fzf
+selected_pr=$(echo "$pr_list" | fzf --delimiter='\t' --with-nth=1,2 --preview='gh pr view {1}' --preview-window=right:50% --height=80%)
+
+# Check out the selected pull request
+selected_pr_number=$(echo "$selected_pr" | awk '{print $1}')
+
+if [[ -n "$selected_pr_number" ]]; then
+  echo "Checking out pull request #$selected_pr_number"
+  gh pr checkout "$selected_pr_number"
+fi

@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 # Parse command line options
+state='open'
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --all)
@@ -15,11 +18,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Fetch all open pull requests
-if [[ "$state" == "all" ]]; then
-  pr_list=$(gh pr list --state all --json number,title | jq -r '.[] | "\(.number)\t\(.title)"')
-else
-  pr_list=$(gh pr list --state open --json number,title | jq -r '.[] | "\(.number)\t\(.title)"')
-fi
+pr_list=$(gh pr list --state $state --json number,title | jq -r '.[] | "\(.number)\t\(.title)"')
 
 # Prompt user to select a pull request using fzf
 selected_pr=$(echo "$pr_list" | fzf --delimiter='\t' --with-nth=1,2 --preview='gh pr view {1}' --preview-window=right:50% --height=80%)

@@ -3,7 +3,6 @@
 set -euo pipefail
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
-# commit_info=$(git log --pretty=format:"%Cred %h %Creset %s (%an)" --color "$current_branch")
 commit_info=$(git log --oneline --decorate --color "$current_branch")
 selected_commit=$(echo "$commit_info" | fzf --no-sort --ansi --preview 'echo {} | cut -d" " -f1 | xargs -I % git show --color %')
 commit_hash=$(echo "$selected_commit" | cut -d' ' -f1)

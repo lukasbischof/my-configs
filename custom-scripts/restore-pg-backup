@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+app_name=$1
+
+if [ -z $app_name ]; then
+  app_name=${PWD##*/}
+fi
+
+app_environment="$app_name-master"
+if [ ! -f "$HOME/Downloads/$app_environment.dump" ]; then
+  download-pg-backup $app_name
+fi
+
+pg_restore --verbose --clean --no-acl --no-owner -h localhost -d "${app_name//-/_}_development" ~/Downloads/$app_environment.dump

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+bundle exec rspec --exclude-pattern "**/{system,screenshots,features}/**/*_spec.rb" $@

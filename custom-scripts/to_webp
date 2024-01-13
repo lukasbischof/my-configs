@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+ file=$1
+ new_name=${file//.png/.webp}
+ new_name=${new_name//.jpg/.webp}
+ magick $file -quality 50 $new_name

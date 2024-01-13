@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+app_name=$1
+
+if [ -z $app_name ]; then
+  app_name=${PWD##*/}
+fi
+
+app_environment="$app_name-master"
+echo "Downloading master backup of $app_name to ~/Downloads"
+op plugin run -- heroku pg:backups:download -a $app_environment -o ~/Downloads/$app_environment.dump

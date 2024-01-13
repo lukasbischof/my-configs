@@ -1,0 +1,72 @@
+#!/bin/bash
+
+print_help () {
+	echo "icon_resize 1.0"
+	echo "Resizes images in the @1x -> @2x -> @3x image formats to use them in Xcode"
+	echo "Try --help for help using this tool"
+}
+
+print_man () {
+	echo "Icon Resize"
+	echo
+	echo "USAGE: "
+	echo "icon_resize [file]"
+	echo
+	echo "OUTPUT: "
+	echo "file@3x, file@2x, file in the directory of the file"
+}
+
+save () {
+	org=$1
+	dirname=$2
+	ext=$3
+	_width=$4
+	_height=$5
+
+	filename=$(basename "$org")
+	extension="${filename##*.}"
+	filename="${filename%.*}"
+
+	new="$dirname/$filename$ext.$extension"
+	cp "$org" "$new"
+
+	sips -z $_height $_width $new > /dev/null
+}
+
+#
+# -> MAIN
+#
+if [[ $# -eq 1 ]]
+then
+	if [[ "$1" == "--help" ]]
+	then
+		#-> Manual
+		print_man
+		exit
+	fi
+
+	file="$1"
+
+	if [ -f $file ]; then
+		# Get Size
+		height=$(sips -g pixelHeight "$file" | tail -n1 | cut -d" " -f4)
+		width=$(sips -g pixelWidth "$file" | tail -n1 | cut -d" " -f4)
+		actualWidth=$(($width / 3))
+		actualHeight=$(($height / 3))
+
+		echo "Image Width: $width, Height: $height"
+		save $file $(dirname "$file") "@2x" $(($actualWidth * 2)) $(($actualHeight * 2))
+		save $file $(dirname "$file") "@3x" $width $height
+
+		sips -z $actualHeight $actualWidth $file > /dev/null
+		echo "Done"
+	else
+		echo "File doesn't exist"
+		echo
+		print_help
+	fi
+else
+	echo "Too few arguments"
+	echo
+	print_help
+fi

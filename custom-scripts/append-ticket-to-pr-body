@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+git_current_branch () {
+	local ref
+	ref=$(command git symbolic-ref --quiet HEAD 2> /dev/null)
+	local ret=$?
+	if [[ $ret != 0 ]]
+	then
+		[[ $ret == 128 ]] && return
+		ref=$(command git rev-parse --short HEAD 2> /dev/null)  || return
+	fi
+	echo ${ref#refs/heads/}
+}
+
+set +e
+ticket_number="$(git_current_branch | grep -E -o '\d+' | head -n1)"
+set -e
+
+if [[ -z "$ticket_number" ]]
+then
+  echo "No ticket number found in branch name"
+  exit 1
+fi
+
+pr_previous_body="$(gh pr view --json body --jq '.body')"
+
+if echo "$pr_previous_body" | grep -q "TICKET-$ticket_number"
+then
+  echo "Ticket number already in PR body"
+  exit 0
+fi
+
+printf "TICKET-%s\n\n%s" "$ticket_number" "$pr_previous_body" | gh pr edit --body-file -

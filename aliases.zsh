@@ -1,3 +1,4 @@
+# vim: set ft=bash:
 alias lock="open -a ScreenSaverEngine"
 alias lsla="ls -laGhO"
 alias ppwd="pwd -P"
@@ -9,21 +10,15 @@ alias rspc="bin/bundle exec rspec"
 alias t="tmux"
 alias findext="find . -type f -name"
 alias bbe="bin/bundle exec"
-alias cnsl="rails console"
 alias psql_start="pg_ctl -D /usr/local/var/postgres start"
 alias psql_stop="pg_ctl -D /usr/local/var/postgres stop"
 alias react-native-container="/Users/lukas/p/scripts/react-native-container.sh"
-alias s="bbe rspec"
-alias run="bin/run"
-alias webstorm="open -a /Users/lukas/Applications/JetBrains\ Toolbox/WebStorm.app ."
 alias plistbuddy="/usr/libexec/PlistBuddy"
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+alias rials="rails" # I am stupid sometimes
 
 alias emulator="$ANDROID_HOME/emulator/emulator"
-alias dc="docker-compose"
-alias gsw="git switch"
-alias gffs="git flow feature start"
 
 gswi () {
   gsw "$(gb | command xargs -n 1 | grep -v '*' | fzf)"
@@ -48,7 +43,9 @@ gbp() {
     fi
 }
 
-fco() { gco $(gb | command xargs -n 1 | grep -v "*" | fzf) $@ }
+fco() {
+  gco $(gb | command xargs -n 1 | grep -v "*" | fzf) $@
+}
 
 last_release_tag() {
   git tag | sort -rV | egrep '\d+\.\d+\.\d+' | head -n1 | tr -d '\n'

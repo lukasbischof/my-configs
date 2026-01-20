@@ -4,18 +4,16 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 #                                                           Antigen                                                            #
 ################################################################################################################################
 
-source /usr/local/share/antigen/antigen.zsh
+source /Users/lukas/.configrc/antigen.zsh
 antigen use oh-my-zsh
 antigen bundles <<EOBUNDLES
   git
   git-flow
   git-extras
-  https://gist.github.com/ohcibi/986fe0876b1cf746d1e8
   zsh-users/zsh-autosuggestions
-  docker
-  nvm
-  rails
-  ruby
+  zsh-users/zsh-completions
+  zsh-interactive-cd
+  rake
   man
   mix
   heroku
@@ -24,120 +22,90 @@ antigen theme agnoster
 antigen apply
 
 [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-
 DEFAULT_USER="lukas"
-
-################################################################################################################################
-#                                                          NVM Setup                                                           #
-################################################################################################################################
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
-
-# place this after nvm initialization!
-autoload -U add-zsh-hook
-load-nvmrc() {
-  local node_version="$(nvm version)"
-  local nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$node_version" ]; then
-      nvm use
-    fi
-  elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
-    nvm use default
-  fi
-}
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
 
 ################################################################################################################################
 #                                                Aliases and Environment Setup                                                 #
 ################################################################################################################################
 
-export PIP_TARGET=$HOME/.pip
+# # asdf setup
+# export ASDF_DATA_DIR="$HOME/.asdf"
+# export PATH="$ASDF_DATA_DIR/shims:$PATH"
+# fpath=(${ASDF_DIR}/completions $fpath)
+# autoload -Uz compinit && compinit
+# . ~/.asdf/plugins/java/set-java-home.zsh
 
-source $HOME/.configrc/.aliases.sh
+# Mise setup
+eval "$(mise activate zsh)"
 
-gbp() {
-    echo "Do you really want to commit to this branch [y/n]?"
-    git rev-parse --abbrev-ref HEAD
-    read des
-    if [ "$des" = "y" ]; then
-      ggpush
-    else
-      >&2 echo "[ABORTED]"
-    fi
-}
+autoload -Uz zcalc
 
-function vimf() {
-  vim $(find * -type f | fzf) $@
-}
-
-function fco() {
-  gco $(gb | command xargs -n 1 | grep -v "*" | fzf) $@
-}
-
-function last_release_tag() {
-  git tag | sort -nr | egrep '\d+\.\d+\.\d+' | head -n1 | tr -d '\n'
-}
+export PIP_TARGET=/Users/lukas/.pip
 
 export PATH="$(brew --prefix)/opt/imagemagick@6/bin:$PATH:/Users/lukas/Library/Android/sdk/tools/bin"
 export GPG_TTY=$(tty) # Diese globale Variable ist wichtig, dass das GPG signing von git commits funktioniert
 
-# eval $(thefuck --alias)
-# eval "$(gulp --completion=zsh)"
-export GOPATH=/Users/lukas/go
-export JAVA_HOME=$(brew --prefix)/opt/openjdk@11
-export PATH="$JAVA_HOME/bin:$(brew --prefix)/opt/bison/bin:$PATH:$HOME/flutter/bin:$HOME/.composer/vendor/bin:$HOME/.poetry/bin:$GOPATH/bin:$HOME/.rbenv/bin:$HOME/oracle/instantclient_20_3:$HOME/.pub-cache/bin:$HOME/.configrc/custom-scripts"
-export ANDROID_HOME=/Users/lukas/Library/Android/sdk
+# export JAVA_HOME=$(brew --prefix)/opt/openjdk
+export PATH="$(brew --prefix)/opt/bison/bin:$PATH:$HOME/flutter/bin:$HOME/.composer/vendor/bin:$HOME/.poetry/bin:$HOME/oracle/instantclient_20_3:$HOME/.pub-cache/bin:$HOME/.local/bin:$HOME/Library/Application Support/Coursier/bin:$HOME/.configrc/custom-scripts"
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export FLUTTER_ROOT="$(mise where flutter)"
 export GROOVY_HOME=$(brew --prefix)/opt/groovy/libexec
 export BISON_PATH=$(brew --prefix)/opt/bison/bin/bison
 export LC_ALL=en_US.UTF-8
-export EDITOR=vim
+export EDITOR=nvim
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export OCI_DIR=~/oracle/instantclient_19_3
 export LIBRARY_PATH=$LIBRARY_PATH:/opt/homebrew/lib
 export CPATH=$CPATH:/opt/homebrew/include
-export HISTSIZE=70000
+export HISTSIZE=90000
 
-# Do not write duplicates to history file
-setopt hist_ignore_all_dups
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
 
-# Igonre commands with preceeding space
-setopt hist_ignore_space
-
+source $HOME/.configrc/aliases.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.tiny-care-terminalrc
+source ~/.config/op/plugins.sh
 
-eval "$(rbenv init -)"
+################################################################################################################################
+#                                                         Completions                                                          #
+################################################################################################################################
 
-lsall() { echo; ls -lah; echo }
-zle -N lsall
-bindkey '^[l' 'lsall'
+source <(kompose completion zsh)
+HEROKU_AC_ZSH_SETUP_PATH=/Users/lukas/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
+source <(docker completion zsh)
+# source <(nctl completions -c zsh)
+source <(op completion zsh)
+source <(sem completion zsh)
 
-_zsh_cli_fg() { fg; }
-zle -N _zsh_cli_fg
-bindkey '^Z' _zsh_cli_fg
+# lsall() { echo; ls -lah; echo }
+# zle -N lsall
+# bindkey '^[l' 'lsall'
+#
+# _zsh_cli_fg() { fg; }
+# zle -N _zsh_cli_fg
+# bindkey '^Z' _zsh_cli_fg
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('$HOME/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "$HOME/miniforge3/etc/profile.d/conda.sh" ]; then
-        . "$HOME/miniforge3/etc/profile.d/conda.sh"
-    else
-        export PATH="$HOME/miniforge3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+################################################################################################################################
+#                                                         Custom Scripts                                                       #
+################################################################################################################################
 
+delete-merged-branches() {
+  branches=$(git branch --format '%(refname:short)' | grep -Fxv "$(gh pr list --state open --json headRefName --jq '.[].headRefName')" | grep -Ev '^(master|main|develop)$' | grep -v "$(git_current_branch)")
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  echo "Branches that will be deleted:"
+  echo -e "\033[1;31m$branches\033[0m"
+
+  printf "Do you want to delete these branches? (y/n): "
+  read -k 1 answer
+  echo
+
+  if [ "$answer" = "y" ]; then
+    git branch -D $(xargs <<<"$branches")
+  fi
+}
+
+edit-project() { nvim }

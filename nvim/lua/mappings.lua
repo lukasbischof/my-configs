@@ -23,6 +23,12 @@ map("n", "<C-T>", function()
   vim.cmd "tabnew"
 end, { desc = "Open new tab" })
 
+-- Open a new terminal and immediately enter insert mode
+map("n", "<M-t>", function()
+  vim.cmd "terminal"
+  vim.cmd "startinsert"
+end, { desc = "Open new terminal" })
+
 --------------------------------------------------------------------------
 -- TELESCOPE
 --------------------------------------------------------------------------
@@ -35,6 +41,16 @@ end, { desc = "LSP references" })
 map("n", "<leader>fg", function()
   require("telescope").extensions.live_grep_args.live_grep_args()
 end, { desc = "Live grep with args" })
+map("n", "<leader>fA", function()
+  require("telescope.builtin").builtin()
+end, { desc = "Find all telescope pickers" })
+
+map("n", "<leader>fW", function()
+  local word = vim.fn.expand("<cword>")
+  require("telescope").extensions.live_grep_args.live_grep_args({
+    default_text = word,
+  })
+end, { desc = "Live grep current word" })
 
 --------------------------------------------------------------------------
 --- NEOTEST

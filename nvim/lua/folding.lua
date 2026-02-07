@@ -35,7 +35,6 @@ vim.api.nvim_create_autocmd("FileType", {
 -- and set it to manual after entering a buffer
 vim.cmd [[
   augroup vimrc
-    au BufReadPre * setlocal foldmethod=indent
     au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
   augroup END
 ]]

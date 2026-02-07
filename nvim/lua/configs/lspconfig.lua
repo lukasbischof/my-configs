@@ -36,6 +36,10 @@ vim.lsp.config.html = {
   },
 }
 vim.lsp.config.herb_ls.cmd = { "mise", "exec", "node@25.2.1", "--", "herb-language-server", "--stdio" }
+vim.lsp.config.eslint.cmd = { "mise", "exec", "node@25.2.1", "--", "vscode-eslint-language-server", "--stdio" }
+vim.lsp.config.ts_ls = {
+  cmd = { "mise", "exec", "node@25.2.1", "--", "typescript-language-server", "--stdio" },
+}
 
 -- Configure standardrb LSP only if available
 if has_standard_gem() then
@@ -59,6 +63,7 @@ local servers = {
   "cssls",
   "dartls",
   "emmet_ls",
+  "eslint",
   "gopls",
   "hls",
   "html",

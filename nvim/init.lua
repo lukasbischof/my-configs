@@ -66,3 +66,10 @@ require "folding"
 require "misc"
 
 require("refactoring").setup {}
+
+vim.g.VM_maps = {
+  ["Find Under"] = "<M-n>",
+  ["Find Subword Under"] = "<M-n>",
+  ["Add Cursor Up"] = "<M-k>",
+  ["Add Cursor Down"] = "<M-j>"
+}

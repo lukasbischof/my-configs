@@ -126,5 +126,5 @@ claude() {
 
   echo "Running with profile: $profile"
 
-  exec nono run --profile "$profile" -- command claude "$@"
+  nono run --profile "$profile" -- command claude "$@"
 }

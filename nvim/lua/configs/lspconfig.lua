@@ -1,16 +1,5 @@
 require("nvchad.configs.lspconfig").defaults()
 
--- Function to check if standard gem is available
-local function has_standard_gem()
-  local handle = io.popen "grep -q 'gem \"standard\"' Gemfile && echo 'true'"
-  if not handle then
-    return false
-  end
-  local result = handle:read "*a"
-  handle:close()
-  return result:match "true" ~= nil
-end
-
 -- Configure LSP servers BEFORE enabling them
 vim.lsp.config.cssls.cmd = { "mise", "exec", "node@25.2.1", "--", "vscode-css-language-server", "--stdio" }
 vim.lsp.config.bashls = {
@@ -20,7 +9,19 @@ vim.lsp.config.bashls = {
 }
 vim.lsp.config.emmet_ls = {
   cmd = { "mise", "exec", "node@25.2.1", "--", "emmet-ls", "--stdio" },
-  filetypes = { "astro", "eruby", "html", "htmlangular", "htmldjango", "javascriptreact", "pug", "svelte", "templ", "typescriptreact", "vue" },
+  filetypes = {
+    "astro",
+    "eruby",
+    "html",
+    "htmlangular",
+    "htmldjango",
+    "javascriptreact",
+    "pug",
+    "svelte",
+    "templ",
+    "typescriptreact",
+    "vue",
+  },
 }
 vim.lsp.config.html = {
   cmd = { "mise", "exec", "node@25.2.1", "--", "vscode-html-language-server", "--stdio" },
@@ -40,21 +41,84 @@ vim.lsp.config.eslint.cmd = { "mise", "exec", "node@25.2.1", "--", "vscode-eslin
 vim.lsp.config.ts_ls = {
   cmd = { "mise", "exec", "node@25.2.1", "--", "typescript-language-server", "--stdio" },
 }
+vim.lsp.config.stimulus_ls = {
+  cmd = { "mise", "exec", "node@25.2.1", "--", "stimulus-language-server", "--stdio" },
+}
+vim.lsp.config.ruby_lsp = {
+  init_options = {
+    formatter = "auto",
+    enabledFeatures = {
+      codeActions = true,
+      codeLens = true,
+      completion = true,
+      definition = true,
+      diagnostics = true,
+      documentHighlights = true,
+      documentLink = true,
+      documentSymbols = true,
+      foldingRanges = true,
+      formatting = true,
+      hover = true,
+      inlayHint = true,
+      onTypeFormatting = true,
+      selectionRanges = true,
+      semanticHighlighting = true,
+      signatureHelp = true,
+      typeHierarchy = true,
+      workspaceSymbol = true,
+    },
+    addonSettings = {
+      ["Ruby LSP Rails"] = {
+        enablePendingMigrationsPrompt = false,
+      },
+    },
+  },
+}
+vim.lsp.config.jsonls = {
+  cmd = { "mise", "exec", "node@25.2.1", "--", "vscode-json-language-server", "--stdio" },
+  settings = {
+    json = {
+      validate = { enable = true },
+      schemas = require("schemastore").json.schemas {
+        extra = {
+          {
+            description = "Nono profile file",
+            fileMatch = { "*nono/profiles/*.json" },
+            url = "file:///Users/lukas/.config/nono/nono-profile.schema.json",
+            name = "nono-profile",
+          },
+        },
+      },
+    },
+  },
+}
 
--- Configure standardrb LSP only if available
+-- Rubocop diagnostics and code actions are handled by ruby_lsp's built-in
+-- addon. Standardrb needs a standalone server because ruby_lsp's auto-detection
+-- does not recognize Standard as a linter (upstream limitation).
+local function has_standard_gem()
+  local handle = io.popen "[ -f Gemfile ] && grep -q 'gem \"standard\"' Gemfile && echo 'true'"
+  if not handle then
+    return false
+  end
+  local result = handle:read "*a"
+  handle:close()
+  return result:match "true" ~= nil
+end
+
 if has_standard_gem() then
-  vim.lsp.config.standardrb = {
-    cmd = { "bundle", "exec", "standardrb", "--lsp" },
-    filetypes = { "ruby" },
-    root_markers = { ".standard.yml" },
-    single_file_support = false,
-  }
-else
-  vim.lsp.config.rubocop = {
-    cmd = { "bundle", "exec", "rubocop", "--lsp" },
-    filetypes = { "ruby" },
-    root_markers = { "Gemfile", ".rubocop.yml" },
-  }
+  -- Overwrite formatter to standard
+  vim.lsp.config.ruby_lsp = vim.tbl_deep_extend("force", vim.lsp.config.ruby_lsp, {
+    init_options = {
+      formatter = "standard",
+      linters = { "standard" },
+    },
+    addonSettings = {
+      ["Rubocop"] = {
+        enabled = false,
+      },
+    },
+  })
 end
 
 local servers = {
@@ -73,18 +137,10 @@ local servers = {
   "pyright",
   "ruby_lsp",
   "sourcekit",
+  "stimulus_ls",
   "texlab",
   "ts_ls",
+  "yamlls",
 }
 
--- Only add standardrb if standard gem is available, otherwise use rubocop
-if has_standard_gem() then
-  table.insert(servers, "standardrb")
-else
-  table.insert(servers, "rubocop")
-end
 vim.lsp.enable(servers)
-
--- vim.lsp.config.ruby_lsp.cmd = { "mise", "exec", "ruby@3.4.8", "--", "ruby-lsp" }
-
--- read :h vim.lsp.config for changing options of lsp servers

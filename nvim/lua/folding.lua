@@ -24,18 +24,19 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+local indent_fold_fts = { "yaml", "yml", "json", "html", "eruby", "css", "scss", "less" }
+
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "yaml", "yml", "json" },
+  pattern = indent_fold_fts,
   callback = function()
-    vim.opt.foldmethod = "indent"
+    vim.opt_local.foldmethod = "indent"
   end,
 })
 
--- Set foldmethod to indent when opening a file
--- and set it to manual after entering a buffer
-vim.cmd [[
-  augroup vimrc
-    au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
-  augroup END
-]]
-
+-- -- Set foldmethod to indent when opening a file
+-- -- and set it to manual after entering a buffer
+-- vim.cmd(string.format([[
+--   augroup vimrc
+--     au BufWinEnter * if &fdm == 'indent' && index(%s, &ft) == -1 | setlocal foldmethod=manual | endif
+--   augroup END
+-- ]], "['" .. table.concat(indent_fold_fts, "', '") .. "']"))

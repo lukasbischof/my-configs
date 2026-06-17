@@ -2,8 +2,13 @@ return function(_, opts)
   local TS = require "nvim-treesitter-textobjects"
   TS.setup(opts)
 
+  local disabled = {}
+  for _, ft in ipairs(opts.disabled_filetypes or {}) do
+    disabled[ft] = true
+  end
+
   local function attach(buf)
-    if not (vim.tbl_get(opts, "move", "enable")) then
+    if not (vim.tbl_get(opts, "move", "enable")) or disabled[vim.bo[buf].filetype] then
       return
     end
 

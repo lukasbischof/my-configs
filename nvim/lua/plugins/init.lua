@@ -18,8 +18,11 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
+    branch = "main",
+    lazy = false,
+    build = ":TSUpdate",
+    config = function()
+      require("nvim-treesitter").install {
         "bash",
         "c",
         "css",
@@ -40,9 +43,9 @@ return {
         "typescript",
         "vim",
         "vimdoc",
-        "yaml"
-      },
-    },
+        "yaml",
+      }
+    end,
   },
 
   {
@@ -50,6 +53,7 @@ return {
     branch = "main",
     event = "VeryLazy",
     opts = {
+      disabled_filetypes = { "markdown", "html", "xml", "text" },
       move = {
         enable = true,
         set_jumps = true,
@@ -57,17 +61,17 @@ return {
           goto_next_start = {
             ["]f"] = "@function.outer",
             ["]c"] = "@class.outer",
-            ["]p"] = "@parameter.inner",
+            ["]r"] = "@parameter.inner",
             ["]]"] = "@function.outer",
           },
-          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]P"] = "@parameter.inner" },
+          goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer", ["]R"] = "@parameter.inner" },
           goto_previous_start = {
             ["[f"] = "@function.outer",
             ["[c"] = "@class.outer",
-            ["[p"] = "@parameter.inner",
+            ["[r"] = "@parameter.inner",
             ["[["] = "@function.outer",
           },
-          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[P"] = "@parameter.inner" },
+          goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer", ["[R"] = "@parameter.inner" },
         },
       },
       select = {
@@ -84,8 +88,8 @@ return {
           ["ab"] = "@block.outer",
           ["il"] = "@loop.inner",
           ["al"] = "@loop.outer",
-          ["ap"] = "@parameter.outer",
-          ["ip"] = "@parameter.inner",
+          ["ar"] = "@parameter.outer",
+          ["ir"] = "@parameter.inner",
         },
       },
     },
@@ -163,6 +167,7 @@ return {
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
       "olimorris/neotest-rspec",
+      "zidhuss/neotest-minitest",
     },
     config = function()
       require("neotest").setup {
@@ -171,6 +176,7 @@ return {
           require "neotest-python" {
             dap = { justMyCode = false },
           },
+          require "neotest-minitest",
         },
       }
     end,
@@ -227,5 +233,7 @@ return {
     "mg979/vim-visual-multi",
     branch = "master",
     event = "VeryLazy",
-  }
+  },
+
+  { "b0o/schemastore.nvim", lazy = true }
 }

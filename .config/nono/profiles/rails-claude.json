@@ -1,0 +1,33 @@
+{
+  "extends": [
+    "claude-code"
+  ],
+  "meta": {
+    "name": "rails-claude",
+    "version": "1.0",
+    "description": "Rails Claude Profile",
+    "author": "Lukas Bischof"
+  },
+  "filesystem": {
+    "allow": ["~/r/", "~/p/"],
+    "read": ["~/.local/share/mise/installs"],
+    "write": [],
+    "allow_file": [],
+    "read_file": [],
+    "write_file": [],
+    "unix_socket": ["/private/tmp/mysql.sock"],
+    "suppress_save_prompt": [
+      "~/",
+      "~/.local/share/mise/installs/node/latest",
+      "~/.local/share/mise/installs/ruby/latest",
+      "~/.local/share/mise/installs/usage/latest",
+      "~/Library/Application Support/Arc/User Data",
+      "~/Library/Application Support/Google/Chrome",
+      "~/Library/Application Support/Microsoft Edge",
+      "~/Library/Application Support/Vivaldi"
+    ]
+  },
+  "workdir": {
+    "access": "readwrite"
+  }
+}

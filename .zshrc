@@ -90,7 +90,7 @@ source <(sem completion zsh)
 # bindkey '^Z' _zsh_cli_fg
 
 ################################################################################################################################
-#                                                         Custom Scripts                                                       #
+#                                                        Custom Functions                                                      #
 ################################################################################################################################
 
 delete-merged-branches() {
@@ -108,4 +108,23 @@ delete-merged-branches() {
   fi
 }
 
-edit-project() { nvim }
+claude() {
+  profile="rails-claude"
+  has_profile_arg=false
+  for arg in "$@"; do
+    if [[ $has_profile_arg == true ]]; then
+      profile="$arg"
+      set -- "${@/$arg/}"
+      break
+    fi
+
+    if [[ "$arg" == "--profile" ]]; then
+      has_profile_arg=true
+      set -- "${@/--profile/}"
+    fi
+  done
+
+  echo "Running with profile: $profile"
+
+  exec nono run --profile "$profile" -- command claude "$@"
+}

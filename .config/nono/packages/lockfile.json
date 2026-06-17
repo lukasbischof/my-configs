@@ -1,0 +1,179 @@
+{
+  "lockfile_version": 4,
+  "registry": "https://registry.nono.sh",
+  "packages": {
+    "always-further/claude": {
+      "version": "0.0.16",
+      "installed_at": "2026-06-16T11:46:59.693770+00:00",
+      "pinned": false,
+      "provenance": {
+        "signer_identity": "https://github.com/always-further/nono-packs/.github/workflows/publish-claude.yml@refs/tags/claude-v0.0.16",
+        "repository": "always-further/nono-packs",
+        "workflow": ".github/workflows/publish-claude.yml",
+        "ref": "refs/tags/claude-v0.0.16",
+        "rekor_log_index": 1702106904,
+        "signed_at": "2026-06-02T08:24:48.386472+00:00"
+      },
+      "artifacts": {
+        ".claude-plugin/plugin.json": {
+          "sha256": "3053e7ed34c57f7fa945cbd0d3c41b1fc50b5ea7202b66328280215aba9bcd26",
+          "type": "plugin"
+        },
+        "README.md": {
+          "sha256": "5eddcaee0b208e745c9b8f28b65e12e250aabc8442d1181c7c52d4561c3be3f4",
+          "type": "plugin"
+        },
+        "assets/logo.png": {
+          "sha256": "9ff4b5d64f5f83d49777978b31ce6399267652a6535c0f3663f8de00ad6b610f",
+          "type": "plugin"
+        },
+        "bin/nono-hook-bash.sh": {
+          "sha256": "d597255f07b7c6a5e0fb570e613e0f6f7dbb48b056cdba820c694f7380a3f4c6",
+          "type": "plugin"
+        },
+        "bin/nono-hook.sh": {
+          "sha256": "3ab9df72a06f01b6f5c0634a3aecfff616bcc15b2e60145544e0ebbd005596fe",
+          "type": "plugin"
+        },
+        "hooks/hooks.json": {
+          "sha256": "84d37efacf5cb27463b82ef2a63d3d81a5bddeb35ef4690f517442216bcae97c",
+          "type": "plugin"
+        },
+        "profiles/claude.json": {
+          "sha256": "7f7ea770918d5b751de05b4caefee468a69e1cc366a2ed8ca948316388cdb148",
+          "type": "profile"
+        },
+        "skills/nono-sandbox/SKILL.md": {
+          "sha256": "65f9a04e4254d845ad54aad6de727dc53a6c2ff15652addacd9a81c33205b98c",
+          "type": "plugin"
+        },
+        "wiring/enabled-plugin.json": {
+          "sha256": "3be2ddd1d6a6a4c0bf5647cb52bbf6bc60f090d5c4c32f0810041ed38d673fd1",
+          "type": "plugin"
+        },
+        "wiring/installed-plugin.json": {
+          "sha256": "bea42d9a9cbbb5f78e94a6b5ef11d2040038b5be97e8a1ac4fa9d20bffcdc789",
+          "type": "plugin"
+        },
+        "wiring/known-marketplaces.json": {
+          "sha256": "32f7e189bb92efdbecfbba6bf18580ff4fba172e16a7b6fbca2ee224563260a0",
+          "type": "plugin"
+        },
+        "wiring/marketplace.json": {
+          "sha256": "fcf75bff482f7e6a393cadc1bb5446dbd4b88b5af6cf093a8e39b1bba93c648c",
+          "type": "plugin"
+        },
+        "wiring/profile-drafts-dir-marker": {
+          "sha256": "fe50ee3c940a94f77ed12dcfe268e87c2e4895ec8f631b66b24513d3bdefe4bb",
+          "type": "plugin"
+        }
+      },
+      "wiring_record": [
+        {
+          "type": "write_file",
+          "dest": "/Users/lukas/.config/nono/profile-drafts/.nono-claude-pack-marker",
+          "sha256": "fe50ee3c940a94f77ed12dcfe268e87c2e4895ec8f631b66b24513d3bdefe4bb"
+        },
+        {
+          "type": "symlink",
+          "link": "/Users/lukas/.claude/plugins/marketplaces/always-further/plugins/nono"
+        },
+        {
+          "type": "write_file",
+          "dest": "/Users/lukas/.claude/plugins/marketplaces/always-further/.claude-plugin/marketplace.json",
+          "sha256": "fcf75bff482f7e6a393cadc1bb5446dbd4b88b5af6cf093a8e39b1bba93c648c"
+        },
+        {
+          "type": "symlink",
+          "link": "/Users/lukas/.claude/plugins/cache/always-further/nono/1.0.0"
+        },
+        {
+          "type": "json_merge",
+          "file": "/Users/lukas/.claude/plugins/known_marketplaces.json",
+          "leaves": [
+            {
+              "path": [
+                "always-further",
+                "source",
+                "source"
+              ],
+              "installed_value": "directory"
+            },
+            {
+              "path": [
+                "always-further",
+                "source",
+                "path"
+              ],
+              "installed_value": "/Users/lukas/.claude/plugins/marketplaces/always-further"
+            },
+            {
+              "path": [
+                "always-further",
+                "installLocation"
+              ],
+              "installed_value": "/Users/lukas/.claude/plugins/marketplaces/always-further"
+            },
+            {
+              "path": [
+                "always-further",
+                "lastUpdated"
+              ],
+              "installed_value": "2026-06-16T11:46:59.691Z"
+            }
+          ],
+          "created_parents": [
+            [
+              "always-further"
+            ],
+            [
+              "always-further",
+              "source"
+            ]
+          ]
+        },
+        {
+          "type": "json_merge",
+          "file": "/Users/lukas/.claude/plugins/installed_plugins.json",
+          "leaves": [
+            {
+              "path": [
+                "version"
+              ],
+              "installed_value": 2,
+              "prior_value": 2
+            },
+            {
+              "path": [
+                "plugins",
+                "nono@always-further"
+              ],
+              "installed_value": [
+                {
+                  "scope": "user",
+                  "installPath": "/Users/lukas/.claude/plugins/cache/always-further/nono/1.0.0",
+                  "version": "1.0.0",
+                  "installedAt": "2026-06-16T11:46:59.692Z",
+                  "lastUpdated": "2026-06-16T11:46:59.692Z"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "json_merge",
+          "file": "/Users/lukas/.claude/settings.json",
+          "leaves": [
+            {
+              "path": [
+                "enabledPlugins",
+                "nono@always-further"
+              ],
+              "installed_value": true
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

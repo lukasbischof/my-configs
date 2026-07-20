@@ -66,3 +66,4 @@ require "folding"
 require "misc"
 
 require("refactoring").setup {}
+

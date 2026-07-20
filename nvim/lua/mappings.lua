@@ -4,11 +4,12 @@ require "nvchad.mappings"
 
 local map = vim.keymap.set
 
-map("n", ";", ":", { desc = "CMD enter command mode" })
+-- Actually, I prefer the default behaviour of ;
+-- map("n", ";", ":", { desc = "CMD enter command mode" })
 map("i", "jk", "<ESC>")
 map("i", "<C-CR>", "<ESC>o", { desc = "Insert new line below and enter insert mode" })
-map("n", "<leader>cf", function ()
-  vim.fn.setreg('+', vim.fn.expand('%'))
+map("n", "<leader>cf", function()
+  vim.fn.setreg("+", vim.fn.expand "%")
 end, { desc = "Copy current file path to clipboard", noremap = true })
 
 -- Workaround for https://github.com/neovim/neovim/issues/38646: vim.lsp.buf.code_action() doesn't
@@ -20,13 +21,15 @@ map({ "n", "v" }, "<leader>ca", function()
   local lsp_diagnostics = vim.tbl_map(function(d)
     return d.user_data and d.user_data.lsp or nil
   end, diagnostics)
-  lsp_diagnostics = vim.tbl_filter(function(d) return d ~= nil end, lsp_diagnostics)
+  lsp_diagnostics = vim.tbl_filter(function(d)
+    return d ~= nil
+  end, lsp_diagnostics)
 
-  vim.lsp.buf.code_action({
+  vim.lsp.buf.code_action {
     context = {
       diagnostics = lsp_diagnostics,
     },
-  })
+  }
 end)
 
 map("i", "<C-A>", "copilot#Accept('\\<CR>')", {
@@ -135,3 +138,9 @@ end, { desc = "Jump to previous test" })
 map("n", "<leader>j", function()
   require("treesj").toggle()
 end, { desc = "Toggle split/join block" })
+
+--------------------------------------------------------------------------
+--- WINDOW MANAGEMENT
+--------------------------------------------------------------------------
+
+map("n", "<leader><CR>", require("functions").zoom_toggle, { desc = "Zoom in current buffer", silent = true })

@@ -17,4 +17,3 @@ vim.cmd [[
   iabbrev teh the
   iabbrev enend end
 ]]
-

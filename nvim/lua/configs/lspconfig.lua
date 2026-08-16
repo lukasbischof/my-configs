@@ -92,6 +92,9 @@ vim.lsp.config.jsonls = {
     },
   },
 }
+vim.lsp.config.harper_ls = {
+  filetypes = { "asciidoc", "gitcommit", "html", "markdown", "tex" }
+}
 
 -- Rubocop diagnostics and code actions are handled by ruby_lsp's built-in
 -- addon. Standardrb needs a standalone server because ruby_lsp's auto-detection
@@ -129,11 +132,13 @@ local servers = {
   "emmet_ls",
   "eslint",
   "gopls",
+  "harper_ls",
+  "herb_ls",
   "hls",
   "html",
-  "herb_ls",
   "jsonls",
   "lua_ls",
+  "pylsp",
   "pyright",
   "ruby_lsp",
   "sourcekit",

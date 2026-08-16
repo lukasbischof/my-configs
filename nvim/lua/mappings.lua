@@ -11,6 +11,7 @@ map("i", "<C-CR>", "<ESC>o", { desc = "Insert new line below and enter insert mo
 map("n", "<leader>cf", function()
   vim.fn.setreg("+", vim.fn.expand "%")
 end, { desc = "Copy current file path to clipboard", noremap = true })
+map("n", "ZA", "<cmd>qa!<CR>", { desc = "Quit all" })
 
 -- Workaround for https://github.com/neovim/neovim/issues/38646: vim.lsp.buf.code_action() doesn't
 -- include diagnostic `data` field, which ruby-lsp needs for code actions.
@@ -144,3 +145,6 @@ end, { desc = "Toggle split/join block" })
 --------------------------------------------------------------------------
 
 map("n", "<leader><CR>", require("functions").zoom_toggle, { desc = "Zoom in current buffer", silent = true })
+map("n", "<C-w>a", function()
+  require("functions").close_all_other_windows()
+end, { desc = "Close all other windows except current one", silent = true })

@@ -171,6 +171,7 @@ return {
     },
     config = function()
       require("neotest").setup {
+        quickfix = { enabled = false },
         adapters = {
           require "neotest-rspec",
           require "neotest-python" {

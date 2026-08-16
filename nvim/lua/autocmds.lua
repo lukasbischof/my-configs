@@ -10,6 +10,21 @@ vim.cmd [[
   augroup END
 ]]
 
+-- Workaround for a Neovim 0.12 segfault: neotest's attach float (<leader>ta) uses a
+-- terminal buffer with bufhidden=wipe. Opening another float from terminal mode makes
+-- neotest's auto_close autocmd close (and thus wipe) that buffer from inside
+-- nvim_open_win, which crashes the editor. Keeping the buffer around avoids it.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "neotest-attach",
+  callback = function(args)
+    vim.schedule(function()
+      if vim.api.nvim_buf_is_valid(args.buf) then
+        vim.bo[args.buf].bufhidden = "hide"
+      end
+    end)
+  end,
+})
+
 -- Highlight yanked text
 vim.cmd [[
   augroup highlight_yank

@@ -44,4 +44,16 @@ local function zoom_toggle()
   vim.cmd "tab split"
 end
 
-return { zoom_toggle = zoom_toggle }
+local function close_all_other_windows()
+  local current_win = vim.api.nvim_get_current_win()
+  local wins = vim.api.nvim_tabpage_list_wins(0)
+
+  for _, win in ipairs(wins) do
+    if win ~= current_win then
+      vim.api.nvim_win_close(win, true)
+    end
+  end
+end
+
+return { zoom_toggle = zoom_toggle, close_all_other_windows = close_all_other_windows }
+
